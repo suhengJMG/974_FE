@@ -10,7 +10,9 @@ const ChatSectionContainer = () => {
   const { senderId, chatRoomId } = useParams();
   const [message, setMessage] = useState('');
   const [values, setValues] = useState({});
-
+  function onError(e){
+    console.log("STOMP ERROR",e);
+  }
   const sockJS = new SockJS(`${REACT_APP_END_POINT}/chat`);
   let stomp = Stomp.over(sockJS);
   stomp.debug = null;
@@ -23,7 +25,7 @@ const ChatSectionContainer = () => {
     e.preventDefault();
 
     stomp.send(
-      '/pub/chat/message',
+      '/pub/chat.message',
       {},
       JSON.stringify({
         userId: values.senderId,
@@ -65,15 +67,15 @@ const ChatSectionContainer = () => {
 
   useEffect(() => {
     if (message || !values.chatRoomId) return;
-    stomp.connect({}, () => {
-      stomp.subscribe(`/sub/chat/room/${chatRoomId}`, (msg) => {
+    stomp.connect('admin','0116', function(frame)  {
+      stomp.subscribe(`/exchange/chat.exchange/room.${chatRoomId}`, (msg) => {
         const newMessage = JSON.parse(msg.body);
         setValues({
           ...values,
           messages: [...values.messages, newMessage],
         });
-      });
-    });
+      },{'auto-delete':true, 'durable':false, 'exclusive':false});
+    },onError,'/');
     return () => {
       stomp.disconnect();
     };
