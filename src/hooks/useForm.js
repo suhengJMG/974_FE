@@ -86,7 +86,6 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     const { name, files } = e.target;
     const imageFile = files[0];
     const fileReader = new FileReader();
-
     fileReader.readAsDataURL(files[0]);
     fileReader.onload = () => {
       setValues({
@@ -95,6 +94,27 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
         [`${name}File`]: imageFile,
       });
     };
+  };
+
+  const handlePostImage = (e) => {
+    const { name, files } = e.target;
+    let fileURLs = [];
+    let file;
+    let filesLength = files.length > 10 ? 10 : files.length;
+
+    for (let i = 0; i < filesLength; i++) {
+      file = files[i];
+      
+      fileURLs[i] = file;
+      console.log(file);
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+    };
+
+    setValues({
+      ...values,
+      [`${name}File`]: fileURLs,
+    });
   };
 
   const handleListClick = ({ name, value }) => {
@@ -112,6 +132,7 @@ const useForm = ({ initialValues, onSubmit, validate }) => {
     handleSubmit,
     handleImageUpload,
     handleListClick,
+    handlePostImage,
   };
 };
 export default useForm;

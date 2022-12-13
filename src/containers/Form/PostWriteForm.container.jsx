@@ -13,17 +13,25 @@ const PostWriteFormContainer = () => {
     handleSubmit,
     handleImageUpload,
     handleListClick,
+    handlePostImage,
   } = useForm({
-    initialValues: {
-      postImages: [],
+    initialValues: {      
       title: '',
       sport: [],
       location: [],
       text: '',
+      postImages: [],
+      postImagesFile: [],
     },
-    onClick: (e) => {},
-    onSubmit: async ({ location, sport, text, title }) => {
+    onClick: () => {},
+
+    
+    
+    onSubmit: async ({ location, sport, text, title, postImages, postImagesFile }) => {
       const { nickname, userId } = user;
+
+
+
       const response = await createPost({
         location,
         sport,
@@ -32,23 +40,32 @@ const PostWriteFormContainer = () => {
         nickname,
         userId,
         type,
-      });
-
+        postImages,
+        postImagesFile,
+      }); 
       if (!response) return;
       history.push(`/view/${response.data.postId}`);
     },
-    validate: ({ title, sport, location, text }) => {
+
+    
+
+    validate: ({ title, sport, location, text, postImagesFile }) => {
       const newErrors = {};
       if (!title) newErrors.title = '제목을 입력해주세요.';
       if (!sport) newErrors.title = '종목을 선택해주세요.';
       if (!location) newErrors.title = '지역을 선택해주세요.';
       if (!text) newErrors.title = '본문을 입력해주세요.';
+      //if (!postImagesFile) newErrors.title = '사진을 삽입해주세요.';
       return newErrors;
     },
-  });
+  }
+   
+  );
+
   const { type } = useParams();
   const history = useHistory();
   const { user } = useUsers();
+  
 
   return (
     <PostWriteForm
@@ -57,6 +74,7 @@ const PostWriteFormContainer = () => {
       onChange={handleChange}
       onSubmit={handleSubmit}
       onUpload={handleImageUpload}
+      onImage={handlePostImage}
       onListClick={handleListClick}
     />
   );

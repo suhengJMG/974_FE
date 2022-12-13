@@ -29,6 +29,7 @@ const MyInfoEditContainer = (props) => {
         profileImageFile,
       });
 
+
       if (response) {
         alert('내 정보를 수정했습니다.');
       }
@@ -57,6 +58,7 @@ const MyInfoEditContainer = (props) => {
   useEffect(() => {
     init();
   }, [init]);
+
 
   return (
     <MyInfoEditForm

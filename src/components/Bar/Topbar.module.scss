@@ -5,13 +5,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 18px;
+  padding: 30px 100px;
+  border-bottom: 1px solid #DCDCDC;
+
 
   height: $main_size;
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 700;
   color: $primary;
 }
@@ -21,15 +23,17 @@
 
   & button {
     font-weight: 700;
-    padding: 0 24px;
+    padding: 0 50px;
     color: $secondary;
 
     &:hover {
       color: $primary;
       transition: color 300ms ease-in-out;
+
     }
   }
 }
+
 
 .user {
   flex-shrink: 0;

@@ -64,7 +64,7 @@ const ChatSectionContainer = () => {
   useEffect(() => {
     init();
   }, [init]);
-
+/*
   useEffect(() => {
     if (message || !values.chatRoomId) return;
     stomp.connect('admin','0116', function(frame)  {
@@ -80,7 +80,26 @@ const ChatSectionContainer = () => {
       stomp.disconnect();
     };
   });
-
+*/
+useEffect(() => {
+  if (message || !values.chatRoomId) return;
+  stomp.connect('admin','0116', function(frame)  {
+    var chatRoomIdVal=chatRoomId
+    if(chatRoomId.search('id-')!==-1){
+      chatRoomIdVal=chatRoomId.split('id-')[1];
+    }
+    stomp.subscribe(`/exchange/chat.exchange/room.${chatRoomIdVal}`, (msg) => {
+      const newMessage = JSON.parse(msg.body);
+      setValues({
+        ...values,
+        messages: [...values.messages, newMessage],
+      });
+    },{'auto-delete':true, 'durable':true, 'exclusive':false});
+  },onError,'/');
+  return () => {
+    stomp.disconnect();
+  };
+});
   return (
     <ChatSection
       values={values}

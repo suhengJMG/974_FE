@@ -15,6 +15,7 @@ const PostDetailSection = (props) => {
     className: rootClassName,
   } = props;
   const className = cx(styles.root, rootClassName);
+  
 
   return (
     <div className={className}>
@@ -30,9 +31,10 @@ const PostDetailSection = (props) => {
         <div className={styles.detail_wrapper}>
           <img
             className={styles.image}
+            
             src={
               values.profileImage ||
-              'https://973s3.s3.ap-northeast-2.amazonaws.com/3c861103-5d9d-4d1a-af4b-7565571cbac0.png'
+              'https://974s3.s3.ap-northeast-2.amazonaws.com/90acde97-ed9d-425e-bdf0-00d161a550ae.png'
             }
             alt=""
           />
@@ -69,6 +71,21 @@ const PostDetailSection = (props) => {
             )
         )}
       </div>
+
+
+      {/* 사진 */}
+      <div className={styles.image_wrapper}>
+        {values.postImages && values.postImages.map(
+          (images) => (
+          <img
+            className={styles.image_detail}
+            src={images}
+            alt=""/>
+        ))}
+          
+      </div>
+
+      
       {/* 본문 */}
       <div className={styles.textarea}>{values.text || '텍스트'}</div>
       {isMine && (

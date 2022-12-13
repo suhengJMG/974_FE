@@ -44,3 +44,7 @@
     cursor: pointer;
   }
 }
+
+.postImage{
+  @include postImage();
+}

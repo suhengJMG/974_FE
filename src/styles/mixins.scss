@@ -125,6 +125,18 @@
   }
 }
 
+@mixin postImage {
+  width: 100%;
+  font-size: 18px;
+  color: $secondary;
+  margin-bottom: $sub_size;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
 @mixin post_textarea {
   width: 100%;
   height: 216px;

@@ -10,8 +10,11 @@ const PostWriteForm = (props) => {
   const {
     values = {},
     onChange = () => console.log('onChange'),
+    onImage = () => console.log('onImage'),
     onSubmit = () => console.log('onSubmit'),
+    //onUpload = () => console.log('onUpload'),
     onListClick = () => console.log('onListClick'),
+    
     className: rootClassName,
   } = props;
   const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -26,8 +29,9 @@ const PostWriteForm = (props) => {
     setIsSportOpen(!isSportOpen);
   };
 
+
   return (
-    <form className={className} onSubmit={onSubmit}>
+    <form className={className} onSubmit={onSubmit} encType="multipart/form-data" method="post">
       <h1 className={styles.title}>게시글 쓰기</h1>
       <div className={styles.wrapper}>
         {/* 제목 */}
@@ -54,8 +58,7 @@ const PostWriteForm = (props) => {
         </div>
         {isLocationOpen ? (
           <LocationModal
-            onClick={handleLocationClick}
-            onListClick={onListClick}
+            onClick={handleLocationClick} onListClick={onListClick}
           />
         ) : (
           ''
@@ -76,7 +79,20 @@ const PostWriteForm = (props) => {
         ) : (
           ''
         )}
+        {/* 사진 */}
+        <div className={styles.modal}>
+          사진선택하기 &gt;
+          <input
+            //className={styles.disabled}
+            type="file"
+            name="postImages"
+            multiple={true}
+            onChange={onImage}
+          />
+        </div>
       </div>
+      
+      
       {/* 본문 */}
       <textarea className={styles.textarea} name="text" onChange={onChange} />
       <button className={styles.button_large} type="submit">
@@ -84,6 +100,10 @@ const PostWriteForm = (props) => {
       </button>
     </form>
   );
+
 };
+
+
+
 
 export default withRouter(PostWriteForm);

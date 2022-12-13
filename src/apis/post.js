@@ -30,34 +30,37 @@ export const createPost = async ({
   sport,
   text,
   title,
+  postImagesFile,
   nickname,
   userId,
-  type,
-}) => {
-  const response =
+  type, }) => {
+    const formData = new FormData();
+    formData.append("area", location.join('#'));
+    formData.append("nickname", nickname);
+    formData.append("category", sport.join('#'));
+    formData.append("text", text);
+    formData.append("title", title);
+    formData.append("userId", userId);
+    for (let key in postImagesFile) {
+      if (postImagesFile[key]) {
+        formData.append('postImages', postImagesFile[key]);
+      } else continue;
+  }
+
+   const response =
     type === 'player'
       ? await POST({
           url: '/post/player',
-          data: {
-            area: location.join('#'),
-            nickname,
-            category: sport.join('#'),
-            text,
-            title,
-            userId,
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
+          method: "post",
+          data: formData,
         })
       : await POST({
-          url: '/post/coach',
-          data: {
-            area: location.join('#'),
-            nickname,
-            category: sport.join('#'),
-            text,
-            title,
-            userId,
-          },
-        });
+        url: '/post/player',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        method: "post",
+        data: formData,
+      });
   return response;
 };
 
@@ -88,24 +91,31 @@ export const updatePost = async ({
   text,
   title,
   id,
+  postImagesFile,
   nickname,
   userId,
 }) => {
+  const formData = new FormData();
+  formData.append("area", location.join('#'));
+  formData.append("nickname", nickname);
+  formData.append("category", sport.join('#'));
+  formData.append("text", text);
+  formData.append("title", title);
+  formData.append("postId", id);
+  formData.append("userId", userId);
+  for (let key in postImagesFile) {
+    if (postImagesFile[key]) {
+      formData.append('postImages', postImagesFile[key]);
+    } else continue;
+  }
+
   const response = await PUT({
     url: '/post',
-    data: {
-      area: location.join('#'),
-      nickname,
-      category: sport.join('#'),
-      postId: id,
-      text,
-      title,
-      userId,
-    },
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: formData,
   });
   return response;
 };
-
 export const deletePost = async ({ id }) => {
   const response = await DELETE({
     url: `/post/${id}`,

@@ -7,6 +7,10 @@ export const updateMyInfo = async ({
   nickname,
   profileImageFile,
 }) => {
+
+
+
+
   const response = await PUT({
     url: '/myPage/info',
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -19,7 +23,12 @@ export const updateMyInfo = async ({
     data: {
       profileImage: profileImageFile,
     },
+    
   });
+ 
+
+
+  console.log(response);
   return response;
 };
 

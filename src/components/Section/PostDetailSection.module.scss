@@ -101,3 +101,18 @@
     text-align: right;
   }
 }
+
+.image_wrapper{
+  &:last-child {
+    text-align: right;
+  }
+  
+}
+.image_detail{
+  
+    max-height: 300px;
+    max-width: 300px;
+    margin-left: 10px;
+    margin-right: 10px;
+  
+}

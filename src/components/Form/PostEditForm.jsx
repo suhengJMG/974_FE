@@ -9,6 +9,7 @@ const PostEditForm = (props) => {
   const {
     values = {},
     onChange = () => console.log('onChange'),
+    onImage = () => console.log('onImage'),
     onSubmit = () => console.log('onSubmit'),
     onListClick = () => console.log('onListClick'),
     className: rootClassName,
@@ -26,7 +27,7 @@ const PostEditForm = (props) => {
   };
 
   return (
-    <form className={className} onSubmit={onSubmit}>
+    <form className={className} onSubmit={onSubmit} encType="multipart/form-data" method="post">
       <h1 className={styles.title}>게시글 수정</h1>
       <div className={styles.wrapper}>
         {/* 제목 */}
@@ -75,7 +76,19 @@ const PostEditForm = (props) => {
         ) : (
           ''
         )}
+        {/* 사진 */}
+        <div className={styles.modal}>
+          사진선택하기 &gt;
+          <input
+            //className={styles.disabled}
+            type="file"
+            name="postImages"
+            multiple={true}
+            onChange={onImage}
+          />
+        </div>
       </div>
+      
       {/* 본문 */}
       <textarea
         className={styles.textarea}
