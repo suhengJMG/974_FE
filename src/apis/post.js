@@ -25,6 +25,7 @@ export const getRecentCoach = async () => {
   return response;
 };
 
+
 export const createPost = async ({
   location,
   sport,
@@ -56,7 +57,7 @@ export const createPost = async ({
           data: formData,
         })
       : await POST({
-        url: '/post/player',
+        url: '/post/coach',
         headers: { 'Content-Type': 'multipart/form-data' },
         method: "post",
         data: formData,
